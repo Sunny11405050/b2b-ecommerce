@@ -1,0 +1,278 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>HMK Chicken Stores</title>
+    <link rel="icon" href="../../favicon.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+    <link href="../../plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="../../plugins/node-waves/waves.css" rel="stylesheet" />
+    <link href="../../plugins/animate-css/animate.css" rel="stylesheet" />
+    <link href="../../plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css" rel="stylesheet">
+    <link href="../../css/style.css" rel="stylesheet">
+    <link href="../../css/themes/all-themes.css" rel="stylesheet" />
+	<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+	<script src="../../js/common.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function (e) {
+			$("#uploadForm").on('submit',(function(e) {
+				e.preventDefault();
+				$.ajax({
+					url: "https://poultrade.com/new/admin/addbanner.php",
+					type: "POST",
+					data:  new FormData(this),
+					contentType: false,
+					cache: false,
+					processData:false,
+					success: function(data)
+					{
+						alert(data);
+						location.href="banner.html";
+					},
+					error: function() 
+					{
+					} 	        
+			   });
+			}));
+		});
+	</script>
+	<script>
+		function getbannerlabels() {
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					var result = this.responseText;
+					document.getElementById('bannerlabel').innerHTML=result;
+				}
+			};
+			xmlhttp.open("GET", "https://poultrade.com/new/admin/getbannerlabels.php", true);
+			xmlhttp.send();
+		}
+	</script>
+	<script>
+		function getlocationboxes() {
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					var result = this.responseText;
+					document.getElementById('locationboxes').innerHTML=result;
+				}
+			};
+			xmlhttp.open("GET", "https://poultrade.com/admin/admin/getlocationboxes.php", true);
+			xmlhttp.send();
+		}
+	</script>
+	<script>
+    function boxclick(clickid) {
+        if(document.getElementById(clickid).checked==true) {
+            document.getElementById('storelocation').value=document.getElementById('storelocation').value+clickid+",";
+        }
+        else if(document.getElementById(clickid).checked==false) {
+            var a = document.getElementById('storelocation').value;
+            var c = clickid+",";
+            var b = a.replace(c,"");
+            document.getElementById('storelocation').value = b;
+        }
+    }
+    </script>
+    <script>
+        function divfn() {
+            var a = document.getElementById("clicktype").value;
+            if(a=="general" || a=="") {
+                document.getElementById('urlbox').style.display="none";
+                document.getElementById('pagebox').style.display="none";
+            }
+            else if(a=="advertisement") {
+                document.getElementById('urlbox').style.display="block";
+                document.getElementById('pagebox').style.display="none";
+            }
+            else if(a=="page") {
+                document.getElementById('urlbox').style.display="none";
+                document.getElementById('pagebox').style.display="block";
+            }
+        }
+    </script>
+</head>
+<body class="theme-red" onload="userinfo(); getbannerlabels(); getlocationboxes(); getstores();">
+    <div class="overlay"></div>
+    <nav class="navbar">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="../../dashboardapp.html"><b>poulTRADE</b></a>
+            </div>
+            <div class="navbar-collapse customSettings" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="pull-right"><a href="javascript:void(0);" class="js-right-sidebar" data-close="true"><i class="fa fa-bar-chart fa-2x"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <section>
+    <aside id="rightsidebar" class="right-sidebar">
+        <ul class="nav nav-tabs tab-nav-right" role="tablist">
+            <li role="presentation" class="active"><a href="#skins" data-toggle="tab">Sales & Stock</a></li>
+            <li role="presentation"><a href="#skins1" data-toggle="tab">Closing</a></li>
+        </ul>
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade in active in active" id="skins">
+                <div class="col-md-12 col-xs-12" style="padding-top: 10px">
+                    Date:<br>
+                    <input type='date' class='form-control' id="saledate" onchange="getsales1();">
+                    <br>
+                    Branch:<br>
+                    <select class="form-control" id="storeid" onchange="getsales1();">
+                    </select>
+                </div>
+                <div class="col-md-12 col-xs-12" style="padding-top: 10px" id="salesdata">
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="skins1">
+                <div class="col-md-12 col-xs-12" style="padding-top: 10px">
+                    Date:<br>
+                    <input type='date' class='form-control' id="saledate1" onchange="getclosing1();">
+                    <br>
+                    Branch:<br>
+                    <select class="form-control" id="storeid1" onchange="getclosing1();">
+                    </select>
+                </div>
+                <div class="col-md-12 col-xs-12" style="padding-top: 10px" id="closingdata">
+                </div>
+            </div>
+        </div>
+    </aside>
+    </section>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row clearfix">
+                <div class="col-md-12 col-sm-12 col-xs-12" style="padding: 5px; margin: 0px">
+                    <!--div class="col-md-1 col-xs-2" style="padding: 0px; text-align: center">
+                        <img src="" style='width: 90%; height: auto' alt="" id="profilepicture"/>    
+                    </div-->
+                    <!--div class="col-md-11 col-xs-10" style="padding: 0px;"-->
+                        <div class="col-md-6 col-sm-6 col-xs-6" style='padding: 0px'>
+                            <span id="firstname"></span> <span id="lastname"></span><br>
+                            <span id="email"></span><br>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-6" style='padding: 0px; text-align: right'>
+                            <button class="btn btn-danger" type="button" onclick="logoutfn();">Logout</button>    
+                        </div>
+                    <!--/div-->
+                </div>
+                <div class="breadcrumb flat" style="margin-top: 10px">
+                  <a href="../../dashboardapp.html" class="active"><i class="fa fa-home"></i> Home</a>
+                  <a href="#"><i class="fa fa-bullhorn"></i> Promotion</a>
+                  <a href="banner.html"><i class="fa fa-picture-o"></i> Banners</a>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding: 0px">
+                    <div class="card">
+                        <div class="header">
+							<ul class="header-dropdown m-r--5">
+								<li><button class="btn btn-warning" style="float: right" type="button" onclick="location.href='banner.html';">Back</button></li>
+							</ul>
+                        </div>
+                        <div class="body">
+                            <form id="uploadForm" action="https://poultrade.com/new/admin/addbanner.php" method="POST">
+                                <div class="row">
+                                    <div class="col-xs-12 col-md-4 col-sm-6">
+                				            <label>Upload Banner</label><br>
+                    					    <input type="file" class="form-control" name="userImage" required>    
+                				            <br>
+                        					<label>On Click</label><br>
+                        					<select class="form-control" id="clicktype" name="clicktype" onchange="divfn();" required>
+                        						<!--<option value='product'>Product</option>-->
+                        						<!--<option value='associate'>Associate</option>-->
+                        						<!--<option value='offer'>Offer</option>-->
+                        						<!--<option value='greetings'>Greetings</option>-->
+                        						<option value='general'>General</option>
+                        						<option value='advertisement'>URL</option>
+                        						<option value='page'>App Page</option>
+                        						<!--<option value='category'>Category</option>-->
+                        					</select>
+                        				    <br>
+                        				    <div id="urlbox" style="display: none">
+                        				    <label>URL</label><br>
+                        				    <input type="text" class="form-control" id="onclickaction" name="onclickaction" placeholder="Enter URL"><br>
+                        				    </div>
+                        				    <div id="pagebox" style="display: none">
+                        				        <label>Page</label><br>
+                        				        <select class="form-control" id="page" name="page">
+                        				            <option value="">Select</option>
+                        				            <option value="contactus.htmlstr_splitpage">My Stores</option>
+                        				            <option value="profile.htmlstr_splitpage">Profile</option>
+                        				            <option value="passbook.htmlstr_splitpage">Wallet</option>
+                        				            <option value="coupons.htmlstr_splitpage">Coupons</option>
+                        				            <option value="orders.htmlstr_splitpage">Purchases</option>
+                        				            <option value="refer.htmlstr_splitpage">Refer & Earn</option>
+                        				            <option value="share.htmlstr_splitpage">Prime</option>
+                        				            <option value="sellerenquiry.htmlstr_splitinapp">Bilk Order Enquiry</option>
+                        				            <option value="franchise.htmlstr_splitinapp">Careers & Franchise</option>
+                        				            <option value="offers.htmlstr_splitpage">Social Responsibility</option>
+                        				            <option value="itservices.htmlstr_splitpage">About HMK</option>
+                        				            <option value="contact.htmlstr_splitpage">Contact HMK</option>
+                        				        </select>
+                        				    </div>
+                        				    <br>
+                    				        <label>Sort Order</label><br>
+                        					<select class="form-control" name="priority" required>
+                        						<option value=''>Select Priority</option>
+                        						<option value='1'>1</option>
+                        						<option value='2'>2</option>
+                        						<option value='3'>3</option>
+                        						<option value='4'>4</option>
+                        						<option value='5'>5</option>
+                        						<option value='6'>6</option>
+                        						<option value='7'>7</option>
+                        						<option value='8'>8</option>
+                        						<option value='9'>9</option>
+                        						<option value='10'>10</option>
+                        					</select>
+                        				    <br>
+                        					<label>Banner Label</label><br>
+                        					<select class="form-control" id="bannerlabel" name="bannerlabel" required></select>
+                        				    <br>
+                        					<label>Status</label><br>
+                        					<select class="form-control" name="status" required>
+                        						<option value=''>Select Status</option>
+                        						<option value='active'>Active</option>
+                        						<option value='inactive'>Inactive</option>
+                        					</select>
+                                    </div>
+            				        <div class="col-xs-12 col-md-4 col-sm-6">
+                        				
+                        				    <label>Location</label><br>
+                                            <div class='col-xs-12' id="locationboxes"></div>
+                                            <input type="hidden" id="storelocation" name="storelocation">
+                        				    <br>
+                            				<button type="submit" class="btn btn-danger">Add</button>
+                            			
+                            		</div>
+                        		</div>
+                			</form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+	<div style="width: 100%; text-align: center; position: fixed; z-index: 9998889; top: 250px; display:none" id="loader">
+		<img src="../../loading.gif" style="margin-left: auto; margin-right: auto; width: 64px; height: auto">
+	</div>
+    <script src="../../plugins/jquery/jquery.min.js"></script>
+    <script src="../../plugins/bootstrap/js/bootstrap.js"></script>
+    <script src="../../plugins/jquery-slimscroll/jquery.slimscroll.js"></script>
+    <script src="../../plugins/node-waves/waves.js"></script>
+    <script src="../../plugins/jquery-datatable/jquery.dataTables.js"></script>
+    <script src="../../plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js"></script>
+    <script src="../../plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js"></script>
+    <script src="../../plugins/jquery-datatable/extensions/export/buttons.flash.min.js"></script>
+    <script src="../../plugins/jquery-datatable/extensions/export/jszip.min.js"></script>
+    <script src="../../plugins/jquery-datatable/extensions/export/pdfmake.min.js"></script>
+    <script src="../../plugins/jquery-datatable/extensions/export/vfs_fonts.js"></script>
+    <script src="../../plugins/jquery-datatable/extensions/export/buttons.html5.min.js"></script>
+    <script src="../../plugins/jquery-datatable/extensions/export/buttons.print.min.js"></script>
+    <script src="../../js/admin.js"></script>
+    <script src="../../js/demo.js"></script>
+</body>
+</html>

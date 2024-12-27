@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<!--Design & Development: Meher Anudeep Polapragada, for HMK Group Nandyal-->
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="Meher Anudeep Polapragada">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>HMK Chicken Stores</title>
+    <link rel="icon" href="favicon.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+    <link href="plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="plugins/node-waves/waves.css" rel="stylesheet" />
+    <link href="plugins/animate-css/animate.css" rel="stylesheet" />
+    <link href="plugins/morrisjs/morris.css" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/themes/all-themes.css" rel="stylesheet" />
+	<link href="plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css" rel="stylesheet">
+	<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+	<script src="js/common.js"></script>
+	<script src="jscolor.js"></script>
+	<style>
+		.filter-option {
+			display: none;
+		}
+		.bs-caret .caret {
+			display: none;
+		}
+		.dropdown-toggle {
+			display: none;
+		}
+		.bootstrap-select {
+			border: 0px;
+			border-bottom: 0px;
+		}
+	</style>
+	
+	
+	<script>
+    	function setTextColor(picker) {
+    		document.getElementById('hbtn').style.background = '#' + picker.toString();
+    		document.getElementById('hbox').style.background = '#' + picker.toString();
+    		document.getElementById('htext').style.background = '#' + picker.toString();
+    		document.getElementById('htext').value = '#' + picker.toString();
+    	}
+	</script>
+	
+	<script>
+    	function setTextColor1(picker) {
+    		document.getElementById('cbtn').style.background = '#' + picker.toString();
+    		document.getElementById('cbox').style.background = '#' + picker.toString();
+    		document.getElementById('ctext').style.background = '#' + picker.toString();
+    		document.getElementById('ctext').value = '#' + picker.toString();
+    	}
+	</script>
+	
+	<script>
+		function getcolors() {
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					var result = this.responseText;
+					var splitter = result.split("deli");
+					document.getElementById('hbtn').style.background = '#' + splitter[0];
+            		document.getElementById('hbox').style.background = '#' + splitter[0];
+            		document.getElementById('htext').style.background = '#' + splitter[0];
+            		document.getElementById('htext').value = '#' + splitter[0];
+            		document.getElementById('cbtn').style.background = '#' + splitter[1];
+            		document.getElementById('cbox').style.background = '#' + splitter[1];
+            		document.getElementById('ctext').style.background = '#' + splitter[1];
+            		document.getElementById('ctext').value = '#' + splitter[1];
+				}
+			};
+			xmlhttp.open("GET", "https://poultrade.com/admin/admin/getcolors.php", true);
+			xmlhttp.send();
+		}
+	</script>
+	
+	<script>
+		function changetheme() {
+			if(document.getElementById('htext').value=="" || document.getElementById('ctext').value=="") {
+				alert("All fields are compulsory");
+			}
+			else {
+			document.getElementById('loader').style.display="block";
+			var pageheader = document.getElementById('htext').value;
+			var pageheader1 = pageheader.split("#");
+			var contentheader = document.getElementById('ctext').value;
+			var contentheader1 = contentheader.split("#");
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					//var result = this.responseText;
+					location.reload();
+				}
+			};
+			xmlhttp.open("GET", "https://poultrade.com/admin/admin/changetheme.php?pageheader="+pageheader1[1]+"&contentheader="+contentheader1[1], true);
+			xmlhttp.send();
+			}
+		}
+	</script>
+	
+</head>
+<body class="theme-red" style="background: #FFFFFF" onload="getcolors()">
+    <nav class="navbar">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
+                <a href="javascript:void(0);" class="bars"></a>
+                <a class="navbar-brand" href="dashboard.html"><img src="logo.png" style="width: 150px; height: 34px"></a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="pull-right"><a href="javascript:void(0);" class="js-right-sidebar" data-close="true"><i class="material-icons">more_vert</i></a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <section>
+        <aside id="leftsidebar" class="sidebar">
+            <div class="user-info">
+                <div class="image">
+                    <img src="" width="48" height="48" alt="" id="profilepicture"/>
+                </div>
+                <div class="info-container">
+                    <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span id="firstname"></span> <span id="lastname"></span></div>
+                    <div class="email"><span id="email"></span></div>
+                    <div class="btn-group user-helper-dropdown">
+                        <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
+                        <ul class="dropdown-menu pull-right">
+                            
+							
+							<li><a href="#" onclick="logoutfn();"><i class="material-icons">input</i>Sign Out</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="menu">
+                <ul class="list">
+                    <li>
+                        <a href="javascript:void(0);" class="menu-toggle">
+                            <i class="material-icons">dashboard</i>
+                            <span>Dashboard</span>
+                        </a>
+						<ul class="ml-menu">
+                            <li>
+                                <a href="dashboard.html">Chicken Stores Trading</a>
+                            </li>
+							<li>
+                                <a href="dashboardapp.html">Chicken Stores App</a>
+                            </li>
+                        </ul>
+                    </li>
+					<li>
+                        <a href="javascript:void(0);" class="menu-toggle">
+                            <i class="material-icons">insert_chart</i>
+                            <span>User Reports</span>
+                        </a>
+                        <ul class="ml-menu">
+                            <li>
+                                <a href="users.html">Users</a>
+                            </li>
+                            <li>
+                                <a href="referrals.html">Referrals</a>
+                            </li>
+							<li>
+                                <a href="feedback.html">Feedback</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);" class="menu-toggle">
+                            <i class="material-icons">folder</i>
+                            <span>Configurations</span>
+                        </a>
+                        <ul class="ml-menu">
+                            <li>
+                                <a href="uom.html">Unit of Measurements</a>
+                            </li>
+							<li>
+                                <a href="saletypes.html">Sale Types</a>
+                            </li>
+							<li>
+                                <a href="dwp.html">Dressed Weight Percentage</a>
+                            </li>
+							<li>
+                                <a href="hdo.html">Home Delivery Options</a>
+                            </li>
+							<li>
+                                <a href="ihc.html">Internet Handling Charges</a>
+                            </li>
+                        </ul>
+                    </li>
+					<li>
+                        <a href="orders.html">
+                            <i class="material-icons">trending_up</i>
+                            <span>Orders</span>
+                        </a>
+                    </li>
+					<li>
+                        <a href="locations.html">
+                            <i class="material-icons">folder</i>
+                            <span>Locations</span>
+                        </a>
+                    </li>
+					<li>
+                        <a href="stores.html">
+                            <i class="material-icons">folder</i>
+                            <span>Stores/Branches</span>
+                        </a>
+                    </li>
+					<li>
+                        <a href="coupons.html">
+                            <i class="material-icons">folder</i>
+                            <span>Cash Back</span>
+                        </a>
+                    </li>
+					<li>
+                        <a href="javascript:void(0);" class="menu-toggle">
+                            <i class="material-icons">folder</i>
+                            <span>Catalog</span>
+                        </a>
+                        <ul class="ml-menu">
+                            <li>
+                                <a href="products.html">Products</a>
+                            </li>
+							<li>
+                                <a href="producttypes.html">Product Types</a>
+                            </li>
+							<li>
+                                <a href="productprices.html">Product Prices</a>
+                            </li>
+							<li>
+                                <a href="stockalert.html">Stock Alert</a>
+                            </li>
+                        </ul>
+                    </li>
+					<li>
+                        <a href="videos.html">
+                            <i class="material-icons">folder</i>
+                            <span>Videos</span>
+                        </a>
+                    </li>
+					<li>
+                        <a href="faq.html">
+                            <i class="material-icons">folder</i>
+                            <span>FAQ</span>
+                        </a>
+                    </li>
+					<li>
+                        <a href="javascript:void(0);" class="menu-toggle">
+                            <i class="material-icons">folder</i>
+                            <span>Employees</span>
+                        </a>
+                        <ul class="ml-menu">
+                            <li>
+                                <a href="designations.html">Designations</a>
+                            </li>
+							<li>
+                                <a href="employees.html">Employees</a>
+                            </li>
+                        </ul>
+                    </li>
+					<li>
+                        <a href="expensetypes.html">
+                            <i class="material-icons">folder</i>
+                            <span>Expense Types</span>
+                        </a>
+                    </li>
+					<li>
+                        <a href="accounts.html">
+                            <i class="material-icons">folder</i>
+                            <span>Accounts</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="legal">
+                <div class="copyright">
+                    &copy; 2017 - 2018 <a href="javascript:void(0);">HMK Group</a>.
+                </div>
+                <div class="version">
+                    Powered By: HMKeSolutions, <b>Version: </b> 2.0
+                </div>
+            </div>
+        </aside>
+        <aside id="rightsidebar" class="right-sidebar">
+            <ul class="nav nav-tabs tab-nav-right" role="tablist">
+                <li role="presentation" class="active"><a href="#skins" data-toggle="tab">SKINS</a></li>
+            </ul>
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane fade in active in active" id="skins">
+                    <ul class="demo-choose-skin">
+                        <li data-theme="red" class="active">
+                            <div class="red"></div>
+                            <span>Red</span>
+                        </li>
+                        <li data-theme="pink">
+                            <div class="pink"></div>
+                            <span>Pink</span>
+                        </li>
+                        <li data-theme="purple">
+                            <div class="purple"></div>
+                            <span>Purple</span>
+                        </li>
+                        <li data-theme="deep-purple">
+                            <div class="deep-purple"></div>
+                            <span>Deep Purple</span>
+                        </li>
+                        <li data-theme="indigo">
+                            <div class="indigo"></div>
+                            <span>Indigo</span>
+                        </li>
+                        <li data-theme="blue">
+                            <div class="blue"></div>
+                            <span>Blue</span>
+                        </li>
+                        <li data-theme="light-blue">
+                            <div class="light-blue"></div>
+                            <span>Light Blue</span>
+                        </li>
+                        <li data-theme="cyan">
+                            <div class="cyan"></div>
+                            <span>Cyan</span>
+                        </li>
+                        <li data-theme="teal">
+                            <div class="teal"></div>
+                            <span>Teal</span>
+                        </li>
+                        <li data-theme="green">
+                            <div class="green"></div>
+                            <span>Green</span>
+                        </li>
+                        <li data-theme="light-green">
+                            <div class="light-green"></div>
+                            <span>Light Green</span>
+                        </li>
+                        <li data-theme="lime">
+                            <div class="lime"></div>
+                            <span>Lime</span>
+                        </li>
+                        <li data-theme="yellow">
+                            <div class="yellow"></div>
+                            <span>Yellow</span>
+                        </li>
+                        <li data-theme="amber">
+                            <div class="amber"></div>
+                            <span>Amber</span>
+                        </li>
+                        <li data-theme="orange">
+                            <div class="orange"></div>
+                            <span>Orange</span>
+                        </li>
+                        <li data-theme="deep-orange">
+                            <div class="deep-orange"></div>
+                            <span>Deep Orange</span>
+                        </li>
+                        <li data-theme="brown">
+                            <div class="brown"></div>
+                            <span>Brown</span>
+                        </li>
+                        <li data-theme="grey">
+                            <div class="grey"></div>
+                            <span>Grey</span>
+                        </li>
+                        <li data-theme="blue-grey">
+                            <div class="blue-grey"></div>
+                            <span>Blue Grey</span>
+                        </li>
+                        <li data-theme="black">
+                            <div class="black"></div>
+                            <span>Black</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </aside>
+    </section>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="block-header">
+                <h2 style="font-weight: bold"><i class="fa fa-paint-brush"></i> Change Theme Color</h2>
+            </div>
+            <div class="row clearfix">
+                <div class="col-md-12 col-xs-12" style="padding: 3px;">
+					<div class="col-md-6 col-xs-12" style="padding: 10px">
+						<h2>Page Header</h2>
+						
+						<button class="btn btn jscolor {valueElement:'chosen-value', onFineChange:'setTextColor(this)'}" style="color: #000000" id="hbtn">Pick Color</button>
+						<div style="height: 100px; width: 100px; margin-top: 20px" id="hbox"></div>
+						<input type="text" class="form-control" id="htext" style="margin-top: 20px">
+					</div>
+					
+					<div class="col-md-6 col-xs-12" style="padding: 10px">
+						<h2>Content Header</h2>
+						
+						<button class="btn btn jscolor {valueElement:'chosen-value', onFineChange:'setTextColor1(this)'}" style="color: #000000" id="cbtn">Pick Color</button>
+						<div style="height: 100px; width: 100px; margin-top: 20px" id="cbox"></div>
+						<input type="text" class="form-control" id="ctext" style="margin-top: 20px">
+					</div>
+					
+					<div class="col-md-6 col-xs-12" style="padding: 10px">
+						<button class="btn btn-default'" style="color: #000000" onclick="changetheme()">Save</button>
+					</div>
+				</div>
+            </div>
+        </div>
+    </section>
+	<div style="width: 100%; text-align: center; position: fixed; z-index: 9998889; top: 250px; display:none" id="loader"><img src="loading.gif" style="margin-left: auto; margin-right: auto; width: 64px; height: auto"></div>
+	
+
+	
+    <script src="plugins/jquery/jquery.min.js"></script>
+    <script src="plugins/bootstrap/js/bootstrap.js"></script>
+    <script src="plugins/bootstrap-select/js/bootstrap-select.js"></script>
+    <script src="plugins/jquery-slimscroll/jquery.slimscroll.js"></script>
+    <script src="plugins/node-waves/waves.js"></script>
+    <script src="plugins/jquery-datatable/jquery.dataTables.js"></script>
+    <script src="plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js"></script>
+    <script src="plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js"></script>
+    <script src="plugins/jquery-datatable/extensions/export/buttons.flash.min.js"></script>
+    <script src="plugins/jquery-datatable/extensions/export/jszip.min.js"></script>
+    <script src="plugins/jquery-datatable/extensions/export/pdfmake.min.js"></script>
+    <script src="plugins/jquery-datatable/extensions/export/vfs_fonts.js"></script>
+    <script src="plugins/jquery-datatable/extensions/export/buttons.html5.min.js"></script>
+    <script src="plugins/jquery-datatable/extensions/export/buttons.print.min.js"></script>
+    <script src="js/admin.js"></script>
+    <script src="js/demo.js"></script>
+</body>
+</html>

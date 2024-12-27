@@ -1,0 +1,355 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="DSquad Technologies Pvt Ltd">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>HMK Chicken Stores</title>
+    <link rel="icon" href="favicon.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+    <link href="plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="plugins/node-waves/waves.css" rel="stylesheet" />
+    <link href="plugins/animate-css/animate.css" rel="stylesheet" />
+    <link href="plugins/morrisjs/morris.css" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/themes/all-themes.css" rel="stylesheet" />
+	<link href="plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css" rel="stylesheet">
+	<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+	<script src="js/common.js"></script>
+	<script src="plugins/jquery/jquery.min.js"></script>
+	<script>
+		function getstocklimit() {
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					var result = this.responseText;
+					document.getElementById('stocklimit').innerHTML=result;
+					document.getElementById('loader').style.display="none";
+				}
+			};
+			xmlhttp.open("GET", "https://poultrade.com/admin/admin/getstocklimit.php", true);
+			xmlhttp.send();
+		}
+	</script>
+	<script>
+		function getlocationoptions() {
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					var result = this.responseText;
+					document.getElementById('storelocation').innerHTML=result;
+					document.getElementById('estorelocation').innerHTML=result;
+				}
+			};
+			xmlhttp.open("GET", "https://poultrade.com/admin/admin/getlocationoptions.php", true);
+			xmlhttp.send();
+		}
+	</script>
+	<script>
+		function editclick(clickid) {
+			localStorage.setItem("editid",clickid);
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					var result = this.responseText;
+					var splitter = result.split("deli");
+					document.getElementById('eproduct').value=splitter[0];
+					document.getElementById('ebranch').value=splitter[1];
+					document.getElementById('equantity').value=splitter[2];
+					document.getElementById('eweight').value=splitter[3];
+				}
+			};
+			xmlhttp.open("GET", "https://poultrade.com/admin/admin/estocklimit.php?guid="+clickid, true);
+			xmlhttp.send();
+		}
+	</script>
+	<script>
+		function addstocklimit() {
+			var quantity = document.getElementById('quantity').value;
+			var weight = document.getElementById('weight').value;
+			var product = document.getElementById('product').value;
+			var branch = document.getElementById('branch').value;
+			if(product=="" || branch=="" || quantity=="") {
+				swal({
+				    text: "All fields are required",
+				    icon: "warning"
+				});
+			}
+			else {
+			document.getElementById('loader').style.display="block";
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					var result = this.responseText;
+					document.getElementById('loader').style.display="none";
+					swal({
+					    text: result,
+					    icon: "success"
+					});
+					setTimeout(function(){ 
+					    location.reload();
+					}, 1000);
+				}
+			};
+			xmlhttp.open("GET", "https://poultrade.com/admin/admin/addstocklimit.php?quantity="+quantity+"&weight="+weight+"&product="+product+"&branch="+branch, true);
+			xmlhttp.send();
+			}
+		}
+	</script>
+	<script>
+		function deleteclick(clickid) {
+		    swal({
+                text: "Do you really want to delete?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: false,
+              })
+              .then((willDelete) => {
+                if (willDelete) {
+                    var xmlhttp = new XMLHttpRequest();
+        			xmlhttp.onreadystatechange = function() {
+        				if (this.readyState == 4 && this.status == 200) {
+        					var result = this.responseText;
+        					swal({
+        					    text: result,
+        					    icon: "success"
+        					});
+        					setTimeout(function(){ 
+        					    location.reload();
+        					}, 1000);
+        				}
+        			};
+        			xmlhttp.open("GET", "https://poultrade.com/admin/admin/deletestocklimit.php?guid="+clickid, true);
+        			xmlhttp.send();
+                } 
+                else {
+                    return false;
+                }
+            });
+		}
+	</script>
+	<script>
+		function editstocklimit() {
+			var quantity = document.getElementById('equantity').value;
+			var weight = document.getElementById('eweight').value;
+			var product = document.getElementById('eproduct').value;
+			var branch = document.getElementById('ebranch').value;
+			var guid = localStorage.getItem("editid");
+			if(product=="" || branch=="" || quantity=="") {
+				swal({
+				    text:"All fields are required",
+				    icon:"warning",
+				});
+			}
+			else {
+			document.getElementById('loader').style.display="block";
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					var result = this.responseText;
+					document.getElementById('loader').style.display="none";
+					swal({
+					    text: result,
+					    icon: "success"
+					});
+					setTimeout(function(){ 
+					    location.reload();
+					}, 1000);
+				}
+			};
+			xmlhttp.open("GET", "https://poultrade.com/admin/admin/editstocklimit.php?quantity="+quantity+"&weight="+weight+"&product="+product+"&branch="+branch+"&guid="+guid, true);
+			xmlhttp.send();
+			}
+		}
+	</script>
+	<script>
+		function getproductoptions() {
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					var result = this.responseText;
+					document.getElementById('product').innerHTML=result;
+					document.getElementById('eproduct').innerHTML=result;
+				}
+			};
+			xmlhttp.open("GET", "https://poultrade.com/admin/admin/getproductoptionsalert.php", true);
+			xmlhttp.send();
+		}
+	</script>
+	<script>
+		function getbranchoptions() {
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					var result = this.responseText;
+					document.getElementById('branch').innerHTML=result;
+					document.getElementById('ebranch').innerHTML=result;
+				}
+			};
+			xmlhttp.open("GET", "https://poultrade.com/admin/admin/getemployeebranchoptions.php", true);
+			xmlhttp.send();
+		}
+	</script>
+</head>
+<body class="theme-red" style="background: #FFFFFF" onload="getproductoptions(); getstocklimit(); getproductoptions(); getbranchoptions(); getstores();">
+    <div class="overlay"></div>
+    <nav class="navbar">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="dashboardapp.html"><b>poulTRADE</b></a>
+            </div>
+            <div class="navbar-collapse customSettings" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="pull-right"><a href="javascript:void(0);" class="js-right-sidebar" data-close="true"><i class="fa fa-bar-chart fa-2x"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <section>
+    <aside id="rightsidebar" class="right-sidebar">
+        <ul class="nav nav-tabs tab-nav-right" role="tablist">
+            <li role="presentation" class="active"><a href="#skins" data-toggle="tab">Sales & Stock</a></li>
+            <li role="presentation"><a href="#skins1" data-toggle="tab">Closing</a></li>
+        </ul>
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade in active in active" id="skins">
+                <div class="col-md-12 col-xs-12" style="padding-top: 10px">
+                    Date:<br>
+                    <input type='date' class='form-control' id="saledate" onchange="getsales1();">
+                    <br>
+                    Branch:<br>
+                    <select class="form-control" id="storeid" onchange="getsales1();">
+                    </select>
+                </div>
+                <div class="col-md-12 col-xs-12" style="padding-top: 10px" id="salesdata">
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="skins1">
+                <div class="col-md-12 col-xs-12" style="padding-top: 10px">
+                    Date:<br>
+                    <input type='date' class='form-control' id="saledate1" onchange="getclosing1();">
+                    <br>
+                    Branch:<br>
+                    <select class="form-control" id="storeid1" onchange="getclosing1();">
+                    </select>
+                </div>
+                <div class="col-md-12 col-xs-12" style="padding-top: 10px" id="closingdata">
+                </div>
+            </div>
+        </div>
+    </aside>
+    </section>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row clearfix">
+                <div class="col-md-12 col-sm-12 col-xs-12" style="padding: 5px; margin: 0px">
+                    <!--div class="col-md-1 col-xs-2" style="padding: 0px; text-align: center">
+                        <img src="" style='width: 90%; height: auto' alt="" id="profilepicture"/>    
+                    </div-->
+                    <!--div class="col-md-11 col-xs-10" style="padding: 0px;"-->
+                        <div class="col-md-6 col-sm-6 col-xs-6" style='padding: 0px'>
+                            <span id="firstname"></span> <span id="lastname"></span><br>
+                            <span id="email"></span><br>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-6" style='padding: 0px; text-align: right'>
+                            <button class="btn btn-danger" type="button" onclick="logoutfn();">Logout</button>    
+                        </div>
+                    <!--/div-->
+                </div>
+                <div class="breadcrumb flat" style="margin-top: 10px">
+                  <a href="dashboardapp.html" class="active"><i class="fa fa-home"></i> Home</a>
+                  <a href="#"><i class="fa fa-cubes"></i> Catalog</a>
+                  <a href="stockalert.html"><i class="fa fa-bell"></i> Stock Alert</a>
+                </div>
+                <div class="col-md-12 col-xs-12" style="padding: 0px">
+					<div style="border-radius: 0.5em; text-align: center">
+						<div class="table-responsive">          
+							<table class="table table-striped">
+								<thead>
+									<tr style="background: #c4c4c4; color: #6c6c6c">
+										<th><i class='fa fa-cog'></i></th>
+										<th>#</th>
+										<th>Product</th>
+										<th>Weight</th>
+										<th>Quantity</th>
+										<th>Weight</th>
+									</tr>
+								</thead>
+								<tbody id="stocklimit">
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+            </div>
+        </div>
+    </section>
+    <div style="width: 50px; height: 50px; text-align: center; position: fixed; z-index: 9999; bottom: 20px; right: 20px; background: #f9c935; padding-top: 12px; border-radius: 20px; color: #6c6c6c; cursor: pointer; box-shadow: 0 0 8px rgba(0,0,0,0.3);" data-toggle="modal" data-target="#myModal">
+        <i class="fa fa-plus fa-2x"></i>    
+    </div>
+	<div style="width: 100%; text-align: center; position: fixed; z-index: 9998889; top: 250px; display:none" id="loader"><img src="loading.gif" style="margin-left: auto; margin-right: auto; width: 64px; height: auto"></div>
+	<div id="myModal" class="modal fade" role="dialog" style="z-index: 9998890">
+	  <div class="modal-dialog">
+		<div class="modal-content">
+		  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+			<h4 class="modal-title">Add New Stock Limit</h4>
+		  </div>
+		  <div class="modal-body">
+			<label>Select Product</label>
+			<select class="form-control" id="product"></select><br>
+			<label>Select Branch</label>
+			<select class="form-control" id="branch"></select><br>
+			<label>Quantity</label>
+			<input type="number" class="form-control" id="quantity" placeholder="Quantity"><br>
+			<label>Weight</label>
+			<input type="number" class="form-control" id="weight" placeholder="Weight"><br>
+		  </div>
+		  <div class="modal-footer">
+			<button type="button" class="btn btn-danger" onclick="addstocklimit()" data-dismiss="modal">Add</button>
+		  </div>
+		</div>
+	  </div>
+	</div>
+	<div id="myModal1" class="modal fade" role="dialog" style="z-index: 9998890">
+	  <div class="modal-dialog">
+		<div class="modal-content">
+		  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+			<h4 class="modal-title">Edit Stock Limit</h4>
+		  </div>
+		  <div class="modal-body">
+			<label>Select Product</label>
+			<select class="form-control" id="eproduct"></select><br>
+			<label>Select Branch</label>
+			<select class="form-control" id="ebranch"></select><br>
+			<label>Quantity</label>
+			<input type="number" class="form-control" id="equantity" placeholder="Quantity"><br>
+			<label>Weight</label>
+			<input type="number" class="form-control" id="eweight" placeholder="Weight"><br>
+		  </div>
+		  <div class="modal-footer">
+			<button type="button" class="btn btn-danger" onclick="editstocklimit()" data-dismiss="modal">Update</button>
+		  </div>
+		</div>
+	  </div>
+	</div>
+    <script src="sweetalert.min.js"></script>
+    <script src="plugins/bootstrap/js/bootstrap.js"></script>
+    <script src="plugins/jquery-slimscroll/jquery.slimscroll.js"></script>
+    <script src="plugins/node-waves/waves.js"></script>
+    <script src="plugins/jquery-datatable/jquery.dataTables.js"></script>
+    <script src="plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js"></script>
+    <script src="plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js"></script>
+    <script src="plugins/jquery-datatable/extensions/export/buttons.flash.min.js"></script>
+    <script src="plugins/jquery-datatable/extensions/export/jszip.min.js"></script>
+    <script src="plugins/jquery-datatable/extensions/export/pdfmake.min.js"></script>
+    <script src="plugins/jquery-datatable/extensions/export/vfs_fonts.js"></script>
+    <script src="plugins/jquery-datatable/extensions/export/buttons.html5.min.js"></script>
+    <script src="plugins/jquery-datatable/extensions/export/buttons.print.min.js"></script>
+    <script src="js/admin.js"></script>
+    <script src="js/demo.js"></script>
+</body>
+</html>

@@ -1,0 +1,406 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="DSquad Technologies Pvt Ltd">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>HMK Chicken Stores</title>
+    <link rel="icon" href="favicon.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+    <link href="plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="plugins/node-waves/waves.css" rel="stylesheet" />
+    <link href="plugins/animate-css/animate.css" rel="stylesheet" />
+    <link href="plugins/morrisjs/morris.css" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/themes/all-themes.css" rel="stylesheet" />
+	<link href="plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css" rel="stylesheet">
+	<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+	<script src="js/common.js"></script>
+	<link href="css/customstyle1.css" rel="stylesheet">
+	<script>
+		function getchickenorders() {
+			document.getElementById('loader').style.display="block";
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					var result = this.responseText;
+					document.getElementById('chickenorders').innerHTML=result;
+					document.getElementById('loader').style.display="none";
+				}
+			};
+			xmlhttp.open("GET", "https://poultrade.com/admin/admin/getchickenorders.php", true);
+			xmlhttp.send();
+		}
+	</script>
+	<script>
+		function cconfirmclick(clickid) {
+			if(confirm("Do you really want to change?")==true) {
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					var result = this.responseText;
+					alert(result);
+					getchickenorders();
+				}
+			};
+			xmlhttp.open("GET", "https://poultrade.com/admin/admin/cconfirm.php?guid="+clickid, true);
+			xmlhttp.send();
+			}
+			else {
+			return false;
+			}
+		}
+	</script>
+	<script>
+		function cpackedclick(clickid) {
+			if(confirm("Do you really want to change?")==true) {
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					var result = this.responseText;
+					alert(result);
+					getchickenorders();
+				}
+			};
+			xmlhttp.open("GET", "https://poultrade.com/admin/admin/cpacked.php?guid="+clickid, true);
+			xmlhttp.send();
+			}
+			else {
+			return false;
+			}
+		}
+	</script>
+	<script>
+		function cdispatchedclick(clickid) {
+			if(confirm("Do you really want to change?")==true) {
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					var result = this.responseText;
+					alert(result);
+					getchickenorders();
+				}
+			};
+			xmlhttp.open("GET", "https://poultrade.com/admin/admin/cdispatched.php?guid="+clickid, true);
+			xmlhttp.send();
+			}
+			else {
+			return false;
+			}
+		}
+	</script>
+	<script>
+		function cdeliveryclick(clickid) {
+			if(confirm("Do you really want to change?")==true) {
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					var result = this.responseText;
+					alert(result);
+					getchickenorders();
+				}
+			};
+			xmlhttp.open("GET", "https://poultrade.com/admin/admin/cdelivery.php?guid="+clickid, true);
+			xmlhttp.send();
+			}
+			else {
+			return false;
+			}
+		}
+	</script>
+	<style>
+	    .textLine{
+	        white-space:nowrap;
+	    }
+	    .m-0{
+	        margin:0;
+	    }
+	    
+	    #ordersdata th{
+	        white-space: nowrap;
+	        font-size: 15px;
+	    }
+	    #ordersdata td{
+	        white-space: nowrap;
+	        font-size: 15px;
+	    }
+	    #ordersdata td .adddiv{
+	        width: 200px;
+	        white-space: normal;
+	    }
+	</style>
+</head>
+<body class="theme-red" style="background: #FFFFFF" onload="getstores();">
+    <div class="overlay"></div>
+    <nav class="navbar">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="dashboardapp.html"><b>poulTRADE</b></a>
+            </div>
+            <div class="navbar-collapse customSettings" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="pull-right"><a href="javascript:void(0);" class="js-right-sidebar" data-close="true"><i class="fa fa-bar-chart fa-2x"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <section>
+    <aside id="rightsidebar" class="right-sidebar">
+        <ul class="nav nav-tabs tab-nav-right" role="tablist">
+            <li role="presentation" class="active"><a href="#skins" data-toggle="tab">Sales & Stock</a></li>
+            <li role="presentation"><a href="#skins1" data-toggle="tab">Closing</a></li>
+             <li role="presentation"><a href="#skins2" data-toggle="tab">Expenses</a></li>
+        </ul>
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade in active in active" id="skins">
+                <div class="col-md-12 col-xs-12" style="padding-top: 10px">
+                    Date:<br>
+                    <input type='date' class='form-control' id="saledate" onchange="getsales1();">
+                    <br>
+                    Branch:<br>
+                    <select class="form-control" id="storeid" onchange="getsales1();">
+                    </select>
+                </div>
+                <div class="col-md-12 col-xs-12" style="padding-top: 10px" id="salesdata">
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="skins1">
+                <div class="col-md-12 col-xs-12" style="padding-top: 10px">
+                    Date:<br>
+                    <input type='date' class='form-control' id="saledate1" onchange="getclosing1();">
+                    <br>
+                    Branch:<br>
+                    <select class="form-control" id="storeid1" onchange="getclosing1();">
+                    </select>
+                </div>
+                <div class="col-md-12 col-xs-12" style="padding-top: 10px" id="closingdata">
+                </div>
+            </div>
+             <div role="tabpanel" class="tab-pane fade in active in active" id="skins2">
+                <div class="col-md-12 col-xs-12" style="padding-top: 10px">
+                    Date:<br>
+                    <input type='date' class='form-control' id="saledate2" onchange="getexpenses();">
+                    <br>
+                    Branch:<br>
+                    <select class="form-control" id="storeid2" onchange="getexpenses();">
+                    </select>
+                </div>
+                <div class="col-md-12 col-xs-12" style="padding-top: 10px" id="expensesdata">
+                </div>
+            </div>
+        </div>
+    </aside>
+    </section>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row clearfix">
+                <div class="col-md-12 col-sm-12 col-xs-12" style="padding: 5px; margin: 0px">
+                    <!--div class="col-md-1 col-xs-2" style="padding: 0px; text-align: center">
+                        <img src="" style='width: 90%; height: auto' alt="" id="profilepicture"/>    
+                    </div-->
+                    <!--div class="col-md-11 col-xs-10" style="padding: 0px;"-->
+                        <div class="col-md-6 col-sm-6 col-xs-6" style='padding: 0px'>
+                            <span id="firstname"></span> <span id="lastname"></span><br>
+                            <span id="email"></span><br>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-6" style='padding: 0px; text-align: right'>
+                            <button class="btn btn-danger" type="button" onclick="logoutfn();">Logout</button>    
+                        </div>
+                    <!--/div-->
+                </div>
+                <div class="breadcrumb flat" style="margin-top: 10px">
+                  <a href="dashboardapp.html" class="active"><i class="fa fa-home"></i> Home</a>
+                  <a href="#"><i class="fa fa-credit-card-alt"></i> eCommerce Configurations</a>
+                  <a href="orders.html"><i class="fa fa-line-chart"></i> Orders</a>
+                </div>
+
+                <div class="col-md-12 col-xs-12" style="padding: 3px;">
+					<div class="col-md-12 col-xs-12" style="padding: 0px">
+						<div style="border-radius: 0.5em; text-align: center">
+							<div class="table-responsive">          
+								<table class="table table-striped" id="ordersdata">
+									<thead>
+										<tr style="background: #c4c4c4; color: #6c6c6c">
+											<th>#</th>
+											<th>Order Date</th>
+											<th>Order ID</th>
+											<th>Product</th> 
+											<th>Price</th>
+											<th>Paid</th>
+											<th>Discount</th>
+											<th>Delivery Charges</th>
+											<th>Timeslot</th>
+											<th>Customer Name</th>
+											<th>Mobile Number</th>
+											<th>Delivery Address</th>
+											<th>Assign To</th>
+											<!--th>Action</th-->
+											<th>Payment Mode</th>
+											<th>Status</th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+            </div>
+        </div>
+    </section>
+	<div style="width: 100%; text-align: center; position: fixed; z-index: 9998889; top: 250px; display:none" id="loader"><img src="loading.gif" style="margin-left: auto; margin-right: auto; width: 64px; height: auto"></div>
+    <script src="plugins/jquery/jquery.min.js"></script>
+    <script src="plugins/bootstrap/js/bootstrap.js"></script>
+    <script src="plugins/jquery-slimscroll/jquery.slimscroll.js"></script>
+    <script src="plugins/node-waves/waves.js"></script>
+    <script src="plugins/jquery-datatable/jquery.dataTables.js"></script>
+    <script src="plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js"></script>
+    <script src="plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js"></script>
+    <script src="plugins/jquery-datatable/extensions/export/buttons.flash.min.js"></script>
+    <script src="plugins/jquery-datatable/extensions/export/jszip.min.js"></script>
+    <script src="plugins/jquery-datatable/extensions/export/pdfmake.min.js"></script>
+    <script src="plugins/jquery-datatable/extensions/export/vfs_fonts.js"></script>
+    <script src="plugins/jquery-datatable/extensions/export/buttons.html5.min.js"></script>
+    <script src="plugins/jquery-datatable/extensions/export/buttons.print.min.js"></script>
+    <script src="js/admin.js"></script>
+    <script src="js/demo.js"></script>
+    
+    <script>
+        $(document).ready(function(){
+            $('.delVal').on('click', function(){
+                var thisval = $(this).attr('id');
+                var thispropval = $(this).prop('checked'); 
+                var logparams = "thisval="+thisval+"&thispropval="+thispropval;
+                console.log("logparams: "+logparams);
+                $.ajax({
+                  type: "GET",
+                  url: "https://poultrade.com/admin/admin/deliveryoptions.php", 
+                  data:logparams 
+                });  
+            }) 
+        })
+    </script>
+    <script>
+        var listtype = localStorage.getItem("listtype");
+        $('#ordersdata').dataTable({
+          "ajax": {
+            "url":"https://poultrade.com/admin/admin/getorderdetails.php?listtype="+listtype,
+            "dataSrc": function (json) {
+            var resstr = JSON.stringify(json);
+            console.log("resstr: "+resstr);
+              for (var i=0, ien=json.length; i<ien; i++ ) {
+                var j = i+1;
+                json[i]['0'] = `<td>`+j+`</td>` ;
+                json[i]['1'] = `<td>`+json[i]['delivery_bookdate']+`</td>`;
+                json[i]['2'] = `<td>`+json[i]['delivery_orderid']+`</td>`; 
+                json[i]['3'] = `<td>`+json[i]['productname']+`</td>` ;  
+                json[i]['4'] = `<td>`+json[i]['delivery_subtotal']+`</td>` ; 
+                json[i]['5'] = `<td>`+json[i]['delivery_total']+`</td>` ;
+                json[i]['6'] = `<td>`+json[i]['delivery_discount']+`</td>` ; 
+                json[i]['7'] = `<td>`+json[i]['delivery_charge']+`</td>` ;
+                json[i]['8'] = `<td>`+json[i]['delivery_timeslot']+`</td>` ;
+                json[i]['9'] = `<td>`+json[i]['delivery_fullname']+`</td>` ;  
+                json[i]['10'] = `<td>`+json[i]['delivery_mobile']+`</td>` ; 
+                json[i]['11'] = `<td><div class="adddiv">`+json[i]['delivery_address']+`</div></td>` ; 
+                var empid = json[i]['delivery_assignto'];
+                if(empid==null) {
+                    var empid1 = "";
+                }
+                else {
+                    var empid1 = empid;
+                }
+                var empindex = "empid"+i;
+                if(listtype!="tnew" && listtype!="tdelivered" && listtype!="hpickedup" && listtype!="hdelivered" && listtype!="hcancelled") {
+                json[i]['12'] = `<td> Assigned to:`+empid1+`
+                <select class="form-control deliveryEmpList" id="`+empindex+`"></select>
+                <button id="`+json[i]['id']+`" class="btn btn-primary assign" style="margin-top:10px"> Assign </button>
+                </td>` ; 
+                }
+                else {
+                json[i]['12'] = `<td></td>`;    
+                }
+                // if(json[i]['delivery_status'] == 'active'){
+                //     json[i]['11'] = `<!--td> <button id="`+json[i]['id']+`" class="btn btn-danger statusBtn" data-val="reject" style="margin-top:10px"> Reject </button></td-->` ; 
+                // }
+                // else{
+                //     json[i]['12'] = `<!--td> <button id="`+json[i]['id']+`" class="btn btn-success statusBtn" data-val="active" style="margin-top:10px">Accept</button></td-->` ; 
+                // }
+                json[i]['13'] = `<td>`+json[i]['delivery_paymentmode']+`</td>` ; 
+                json[i]['14'] = `<td>`+json[i]['delivery_status']+`</td>` ; 
+                
+              } 
+              return json;
+            }
+          }
+        }); 
+    </script>
+    <script>
+    setTimeout(function(){ 
+        $.ajax({
+          type: "GET",
+          url: "https://poultrade.com/admin/admin/getdeliveryemp.php",  
+          success: function(res) {     
+            //console.log("res: "+res)
+            $('.deliveryEmpList').append(res);
+          } 
+        });  
+    },1000);
+        
+    </script>
+    <script>
+        $(document).on('change', '.deliveryEmpList', function(){
+            var thisval = $(this).val();
+            $(this).next('button').attr('data-del',thisval)
+            // alert(thisval)
+        })
+    </script>
+    <script>
+        $(document).on('click', '.assign', function(){
+            var thisid = $(this).attr('id');
+            var delid = $(this).attr('data-del'); 
+            //  console.log("delid: "+delid);
+            //  console.log("thisid: "+thisid);
+            if(delid!=undefined){
+                var params= {thisid:thisid,thisval:delid} 
+                $.ajax({
+                  type: "GET",
+                  url: "https://poultrade.com/admin/admin/assignlead.php",  
+                  data:params,
+                  beforeSend: function() {
+                      $('#loader').show();
+                  },
+                  success: function(res) {     
+                    if(res=='ok'){
+                        location.reload();
+                    }
+                  } 
+                }); 
+            }
+            else{
+               alert('Please select delivery executive');
+            }
+        })
+    </script>
+    <script>
+        $(document).on('click', '.statusBtn', function(){
+            var thisid = $(this).attr('id');
+            var thisval = $(this).attr('data-val');
+            var params= {thisid:thisid,thisval:thisval}
+            $.ajax({
+              type: "GET",
+              url: "https://poultrade.com/admin/admin/updatedelstatus.php",  
+              data:params,
+              success: function(res) {     
+                if(res=='ok'){
+                    location.reload();
+                }
+              } 
+            }); 
+            
+        })
+    </script>
+</body>
+</html>

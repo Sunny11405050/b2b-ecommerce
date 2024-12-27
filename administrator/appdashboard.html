@@ -1,0 +1,251 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="DSquad Technologies Pvt Ltd, Begumpet, Hyderabad">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>HMK Chicken Stores</title>
+    <link rel="icon" href="favicon.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+    <link href="plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="plugins/node-waves/waves.css" rel="stylesheet" />
+    <link href="plugins/animate-css/animate.css" rel="stylesheet" />
+    <link href="plugins/morrisjs/morris.css" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/customstyle.css" rel="stylesheet">
+    <link href="css/themes/all-themes.css" rel="stylesheet" />
+	<link href="plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css" rel="stylesheet">
+	<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<script src="js/common.js"></script>
+	<script src="https://poultrade.com/administrator/js/maindashboard.js"></script>
+	<script src="jscolor.js"></script>
+	<script src="plugins/jquery/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+	<style>
+	    #headertable th div {
+	        min-height: 80px;
+	    }
+	</style>
+</head>
+<body class="theme-red" style="background: #FFFFFF" onload="getstores(); getstockapprovals(); getconversionapprovals(); getqtyapprovals(); getbranchoptions();">
+    <div class="overlay"></div>
+    <nav class="navbar">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="dashboardapp.html"><b>poulTRADE</b></a>
+            </div>
+            <div class="navbar-collapse customSettings" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="pull-right"><a href="javascript:void(0);" class="js-right-sidebar" data-close="true"><i class="fa fa-bar-chart fa-2x"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <section>
+    <aside id="rightsidebar" class="right-sidebar">
+        <ul class="nav nav-tabs tab-nav-right" role="tablist">
+            <li role="presentation" class="active"><a href="#skins" data-toggle="tab">Sales & Stock</a></li>
+            <li role="presentation"><a href="#skins1" data-toggle="tab">Closing</a></li>
+             <li role="presentation"><a href="#skins2" data-toggle="tab">Expenses</a></li>
+        </ul>
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade in active in active" id="skins">
+                <div class="col-md-6 col-sm-6 col-xs-6" style="padding-top: 10px">
+                    <span id="firstname"></span> <span id="lastname"></span><br>
+                    <span id="email"></span><br>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-6" style='text-align: right; padding-top: 10px'>
+                    <button class="btn btn-danger" type="button" onclick="logoutfn();">Logout</button>    
+                </div>
+                <div class="col-md-12 col-xs-12" style="padding-top: 10px">
+                    Date:<br>
+                    <input type='date' class='form-control' id="saledate" onchange="getsales1();">
+                    <br>
+                    Branch:<br>
+                    <select class="form-control" id="storeid" onchange="getsales1();">
+                    </select>
+                </div>
+                <div class="col-md-12 col-xs-12" style="padding-top: 10px" id="salesdata">
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="skins1">
+                <div class="col-md-12 col-xs-12" style="padding-top: 10px">
+                    Date:<br>
+                    <input type='date' class='form-control' id="saledate1" onchange="getclosing1();">
+                    <br>
+                    Branch:<br>
+                    <select class="form-control" id="storeid1" onchange="getclosing1();">
+                    </select>
+                </div>
+                <div class="col-md-12 col-xs-12" style="padding-top: 10px" id="closingdata">
+                </div>
+            </div>
+             <div role="tabpanel" class="tab-pane fade in active in active" id="skins2">
+                <div class="col-md-12 col-xs-12" style="padding-top: 10px">
+                    Date:<br>
+                    <input type='date' class='form-control' id="saledate2" onchange="getexpenses();">
+                    <br>
+                    Branch:<br>
+                    <select class="form-control" id="storeid2" onchange="getexpenses();">
+                    </select>
+                </div>
+                <div class="col-md-12 col-xs-12" style="padding-top: 10px" id="expensesdata">
+                </div>
+            </div>
+        </div>
+    </aside>
+    </section>
+    <section class="content">
+        <div class="col-md-12 col-sm-12 col-xs-12" style="padding: 5px; margin: 0px">
+        </div>
+        <div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px">
+            <div class="col-md-12 col-sm-12 col-xs-12" style="padding: 5px; margin: 0px">
+                <div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px">
+                    <div class="col-md-4 col-sm-5 col-xs-8" style="padding: 3px">    
+                        <select class="form-control" id="branchoptions">
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px">
+                    <div class="col-md-4 col-sm-5 col-xs-5" style="padding: 3px">    
+                        <input type="date" class="form-control" id="filterdatestart">
+                    </div>
+                    <div class="col-md-4 col-sm-5 col-xs-5" style="padding: 3px">    
+                        <input type="date" class="form-control" id="filterdate">
+                    </div>
+                    <div class="col-md-4 col-sm-2 col-xs-2" style="padding: 3px">
+                        <button class="btn btn-primary" type="button" onclick="executefunctions();">GO</button>
+                    </div>
+                </div>
+                <div class="col-md-12 col-sm-12 col-xs-12" style="padding-top: 15px; padding-bottom: 15px; font-weight: bold; color: #898989" id="customhead">
+                    
+                </div>
+                <div class="col-md-12 col-sm-12 col-xs-12" style="padding-left: 0px; line-height: 1.5; border-bottom: 2px solid #e9e9e9">
+                    <h4 style="font-weight: normal"><span id="saletext"></span></h4>
+                </div>
+                <div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px; margin: 0px; height: 400px" id="totalsale"></div>
+                <div class="col-md-12 col-sm-12 col-xs-12" style="padding-left: 0px; line-height: 1.5; border-bottom: 2px solid #e9e9e9">
+                    <h4 style="font-weight: normal"><span id="revenuetext"></span></h4>
+                </div>
+                <div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px; padding-top: 10px; padding-bottom: 10px" id="revenuestats">
+                    
+                </div>
+                
+                <div class="col-md-12 col-sm-12 col-xs-12" style="padding-left: 0px; line-height: 1.5; border-bottom: 2px solid #e9e9e9">
+                    <h4 style="font-weight: normal"><span id="stocksaletext"></span></h4>
+                </div>
+                <div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px; margin: 0px; height: 400px" id="salestock"></div>
+                
+                
+                <div class="col-md-12 col-sm-12 col-xs-12" style="padding-left: 0px; line-height: 1.5; border-bottom: 2px solid #e9e9e9">
+                    <h4 style="font-weight: normal"><span id="branchopstext"></span></h4>
+                </div>
+                <div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px; margin: 0px; padding-bottom: 20px" id="branchops">
+                </div>
+                <div class="col-md-12 col-sm-12 col-xs-12" style="padding-left: 0px; line-height: 1.5; border-bottom: 2px solid #e9e9e9">
+                    <h4 style="font-weight: normal"><span id="stocktext"></span></h4>
+                </div>
+                <div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px; padding-top: 10px; padding-bottom: 10px" id="stockstatistics">
+                    
+                </div>
+                
+                <div class="col-md-12 col-sm-12 col-xs-12" style="padding-left: 0px; line-height: 1.5; border-bottom: 2px solid #e9e9e9">
+                    <h4 style="font-weight: normal">Today's Approvals</h4>
+                </div>
+                <div class="col-md-12 col-sm-12 col-xs-12 headerbox">
+                    <i class="fa fa-hand-pointer-o"></i> Stock Approvals - Live Products
+                </div>
+                <div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px; margin: 0px; padding-bottom: 20px">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead style="background: #333333; color: #FFFFFF">
+                                <tr>
+                                    <th>Branch</th>
+                                    <th>Product</th>
+                                    <th>Sys Qty</th>
+                                    <th>Actual Qty</th>
+                                    <th>Sys Weight</th>
+                                    <th>Actual Weight</th>
+                                    <th>Diff Qty</th>
+                                    <th>Diff Weight</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="stockapprovals">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-12 col-sm-12 col-xs-12 headerbox">
+                    <i class="fa fa-hand-pointer-o"></i> Stock Approvals - Conversion Products
+                </div>
+                <div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px; margin: 0px; padding-bottom: 20px">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead style="background: #333333; color: #FFFFFF">
+                                <tr>
+                                    <th>Branch</th>
+                                    <th>Product</th>
+                                    <th>Sys Weight</th>
+                                    <th>Actual Weight</th>
+                                    <th>Diff Weight</th>
+                                    <th>Shortage</th>
+                                    <th>Wastage</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="conversionapprovals">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-12 col-sm-12 col-xs-12 headerbox">
+                    <i class="fa fa-hand-pointer-o"></i> Stock Approvals - Qty Based Products
+                </div>
+                <div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px; margin: 0px; padding-bottom: 20px">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead style="background: #333333; color: #FFFFFF">
+                                <tr>
+                                    <th>Branch</th>
+                                    <th>Product</th>
+                                    <th>Sys Qty</th>
+                                    <th>Actual Qty</th>
+                                    <th>Diff Qty</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="qtyapprovals">
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer id="footer" style="position: fixed; bottom: 0; z-index: 123456; background: #f7f5f5; padding: 5px 10px; right: 0; border-top-left-radius: 10px">
+        <div class="pull-right" style="color: #c6c6c6">
+          <b>All rights reserved</b> <span>v1.1.0, &copy; Copyrights: <a href="#" target="_blank" style="color: #c6c6c6">HMK Group</a></span>
+        </div>
+    </footer>
+	<div style="width: 100%; text-align: center; position: fixed; z-index: 9998889; top: 250px; display:none" id="loader"><img src="loading.gif" style="margin-left: auto; margin-right: auto; width: 64px; height: auto"></div>
+    <script src="sweetalert.min.js"></script>
+    <script src="plugins/bootstrap/js/bootstrap.js"></script>
+    <script src="plugins/jquery-slimscroll/jquery.slimscroll.js"></script>
+    <script src="plugins/node-waves/waves.js"></script>
+    <script src="plugins/jquery-datatable/jquery.dataTables.js"></script>
+    <script src="plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js"></script>
+    <script src="plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js"></script>
+    <script src="plugins/jquery-datatable/extensions/export/buttons.flash.min.js"></script>
+    <script src="plugins/jquery-datatable/extensions/export/jszip.min.js"></script>
+    <script src="plugins/jquery-datatable/extensions/export/pdfmake.min.js"></script>
+    <script src="plugins/jquery-datatable/extensions/export/vfs_fonts.js"></script>
+    <script src="plugins/jquery-datatable/extensions/export/buttons.html5.min.js"></script>
+    <script src="plugins/jquery-datatable/extensions/export/buttons.print.min.js"></script>
+    <script src="js/admin.js"></script>
+    <script src="js/demo.js"></script>
+</body>
+</html>
